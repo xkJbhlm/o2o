@@ -1,0 +1,24 @@
+2020-01-03 14:33:08.788 [main] DEBUG com.imooc.o2o.util.ImageUtil -
+				current relativeAddr is:D:\upload\item\shop11\2020010314330890151.jpg
+2020-01-03 14:33:08.790 [main] DEBUG com.imooc.o2o.util.ImageUtil -
+				current complete addr is:D:\projectdev\image\D:\upload\item\shop11\2020010314330890151.jpg
+2020-01-03 14:33:08.790 [main] DEBUG com.imooc.o2o.util.ImageUtil -
+				basePath is:/E:/IdeaProjects/o2o/target/test-classes/
+2020-01-03 14:33:08.922 [main] DEBUG com.imooc.o2o.util.ImageUtil -
+				current relativeAddr is:D:\upload\item\shop12\2020010314330818652.jpg
+2020-01-03 14:33:08.922 [main] DEBUG com.imooc.o2o.util.ImageUtil -
+				current complete addr is:D:\projectdev\image\D:\upload\item\shop12\2020010314330818652.jpg
+2020-01-03 14:33:08.934 [main] DEBUG com.imooc.o2o.util.ImageUtil -
+				basePath is:/E:/IdeaProjects/o2o/target/test-classes/
+2020-01-03 14:38:10.367 [main] DEBUG com.imooc.o2o.util.ImageUtil -
+				current relativeAddr is:D:\upload\item\shop13\2020010314381055088.jpg
+2020-01-03 14:38:10.367 [main] DEBUG com.imooc.o2o.util.ImageUtil -
+				current complete addr is:D:\projectdev\image\D:\upload\item\shop13\2020010314381055088.jpg
+2020-01-03 14:38:10.367 [main] DEBUG com.imooc.o2o.util.ImageUtil -
+				basePath is:/E:/IdeaProjects/o2o/target/test-classes/
+2020-01-03 14:38:51.562 [main] DEBUG com.imooc.o2o.util.ImageUtil -
+				current relativeAddr is:upload\item\shop14\2020010314385110683.jpg
+2020-01-03 14:38:51.562 [main] DEBUG com.imooc.o2o.util.ImageUtil -
+				current complete addr is:D:\projectdev\image\upload\item\shop14\2020010314385110683.jpg
+2020-01-03 14:38:51.562 [main] DEBUG com.imooc.o2o.util.ImageUtil -
+				basePath is:/E:/IdeaProjects/o2o/target/test-classes/
