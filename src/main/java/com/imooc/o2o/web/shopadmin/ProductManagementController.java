@@ -37,72 +37,84 @@ public class ProductManagementController {
     private static final int IMAGEMAXCOUNT = 6;
 
 
-    @RequestMapping(value = "/listproductsbyshop",method = RequestMethod.GET)
+    @RequestMapping(value = "/listproductsbyshop", method = RequestMethod.GET)
     @ResponseBody
-    private Map<String,Object> listProductsByShop(HttpServletRequest request){
+    private Map<String, Object> listProductsByShop(HttpServletRequest request) {
 
         Shop shop = new Shop();
         shop.setShopId(1L);
-        request.getSession().setAttribute("currentShop",shop);
+        request.getSession().setAttribute("currentShop", shop);
 
-        Map<String,Object> modelMap = new HashMap<>();
-        int pageIndex = HttpServletRequestUtil.getInt(request,"pageIndex");
-        int pageSize = HttpServletRequestUtil.getInt(request,"pageSize");
+        Map<String, Object> modelMap = new HashMap<>();
+        int pageIndex = HttpServletRequestUtil.getInt(request, "pageIndex");
+        int pageSize = HttpServletRequestUtil.getInt(request, "pageSize");
         Shop currentShop = (Shop) request.getSession().getAttribute("currentShop");
-        if ((pageIndex>-1)&&(pageSize>-1)&&(currentShop != null)&&(currentShop.getShopId() != null)){
-            long productCategoryId =HttpServletRequestUtil.getLong(request,"productCategoryId");
-            String productName = HttpServletRequestUtil.getString(request,"productName");
-            Product productCondition = compactProductCondition4Search(currentShop.getShopId(),productCategoryId,productName);
-            ProductExecution pe = productService.getProductList(productCondition,pageIndex,pageSize);
-            modelMap.put("productList",pe.getProductList());
-            modelMap.put("count",pe.getCount());
-            modelMap.put("success",true);
-        }else {
-            modelMap.put("success",false);
-            modelMap.put("errMsg","empty pageSize or pageIndex or shopId");
+        if ((pageIndex > -1) && (pageSize > -1) && (currentShop != null) && (currentShop.getShopId() != null)) {
+            long productCategoryId = HttpServletRequestUtil.getLong(request, "productCategoryId");
+            String productName = HttpServletRequestUtil.getString(request, "productName");
+            Product productCondition = compactProductCondition4Search(currentShop.getShopId(), productCategoryId, productName);
+            ProductExecution pe = productService.getProductList(productCondition, pageIndex, pageSize);
+            modelMap.put("productList", pe.getProductList());
+            modelMap.put("count", pe.getCount());
+            modelMap.put("success", true);
+        } else {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "empty pageSize or pageIndex or shopId");
         }
         return modelMap;
     }
 
-    @RequestMapping(value = "/getproductbyid",method = RequestMethod.GET)
+    @RequestMapping(value = "/getproductbyid", method = RequestMethod.GET)
     @ResponseBody
-    private Map<String ,Object> getProductById(@RequestParam Long productId){
+    private Map<String, Object> getProductById(@RequestParam Long productId) {
 
-        Map<String ,Object> modelMap=new HashMap<>();
-        if (productId>-1){
+        Map<String, Object> modelMap = new HashMap<>();
+        if (productId > -1) {
             Product product = productService.getProductById(productId);
             List<ProductCategory> productCategoryList = productCategoryService.getProductCategoryList(product.getShop().getShopId());
-            modelMap.put("product",product);
-            modelMap.put("productCategoryList",productCategoryList);
-            modelMap.put("success",true);
-        }else {
-            modelMap.put("success",false);
-            modelMap.put("errMsg","empty pageSize or pageIndex or shopId");
+            modelMap.put("product", product);
+            modelMap.put("productCategoryList", productCategoryList);
+            modelMap.put("success", true);
+        } else {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "empty pageSize or pageIndex or shopId");
         }
         return modelMap;
     }
 
-    @RequestMapping(value = "/modifyproduct")
+    @RequestMapping(value = "/getproductcategorylistbyshopId", method = RequestMethod.GET)
     @ResponseBody
-    private Map<String,Object> modifyProduct(HttpServletRequest request){
-        Shop shop1 = new Shop();
-        shop1.setShopId(1L);
-        request.getSession().setAttribute("currentShop",shop1);
+    private Map<String, Object> getProductCategoryListByShopId(
+            HttpServletRequest request) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        Shop currentShop = (Shop) request.getSession().getAttribute(
+                "currentShop");
+        if ((currentShop != null) && (currentShop.getShopId() != null)) {
+            List<ProductCategory> productCategoryList = productCategoryService.getProductCategoryList(currentShop.getShopId());
+            modelMap.put("productCategoryList", productCategoryList);
+            modelMap.put("success", true);
+        } else {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "empty pageSize or pageIndex or shopId");
+        }
+        return modelMap;
+    }
 
-        boolean statusChange = HttpServletRequestUtil.getBoolena(request,"statusChange");
-        Map<String ,Object> modelMap = new HashMap<>();
-        if (!statusChange && !CodeUtil.checkVerifyCode(request)){
-            modelMap.put("success",false);
-            modelMap.put("errMsg","输入了错误的验证码");
+    @RequestMapping(value = "/addproduct")
+    @ResponseBody
+    private Map<String, Object> addProduct(HttpServletRequest request) {
+        Map<String, Object> modelMap = new HashMap<>();
+        if (!CodeUtil.checkVerifyCode(request)) {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "输入了错误的验证码");
             return modelMap;
         }
         ObjectMapper mapper = new ObjectMapper();
         Product product = null;
-        String productStr = HttpServletRequestUtil.getString(request,
-                "productStr");
+        String productStr = HttpServletRequestUtil.getString(request, "productStr");
         MultipartHttpServletRequest multipartRequest = null;
         CommonsMultipartFile thumbnail = null;
-        List<CommonsMultipartFile> productImgs = new ArrayList<CommonsMultipartFile>();
+        List<CommonsMultipartFile> productImgs = new ArrayList<>();
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
                 request.getSession().getServletContext());
         try {
@@ -110,8 +122,7 @@ public class ProductManagementController {
                 multipartRequest = (MultipartHttpServletRequest) request;
                 thumbnail = (CommonsMultipartFile) multipartRequest.getFile("thumbnail");
                 for (int i = 0; i < IMAGEMAXCOUNT; i++) {
-                    CommonsMultipartFile productImg = (CommonsMultipartFile) multipartRequest
-                            .getFile("productImg" + i);
+                    CommonsMultipartFile productImg = (CommonsMultipartFile) multipartRequest.getFile("productImg" + i);
                     if (productImg != null) {
                         productImgs.add(productImg);
                     }
@@ -123,23 +134,103 @@ public class ProductManagementController {
             }
         } catch (Exception e) {
             modelMap.put("success", false);
-            modelMap.put("errMsg", "1."+e.toString());
-
+            modelMap.put("errMsg", e.toString());
             return modelMap;
         }
         try {
             product = mapper.readValue(productStr, Product.class);
         } catch (Exception e) {
             modelMap.put("success", false);
-            modelMap.put("errMsg", "2."+e.toString());
+            modelMap.put("errMsg", e.toString());
             return modelMap;
         }
         if (product != null && thumbnail != null && productImgs.size() > 0) {
             try {
+                Shop currentShop = (Shop) request.getSession().getAttribute("currentShop");
+                Shop shop = new Shop();
+                shop.setShopId(currentShop.getShopId());
+                product.setShop(shop);
+                ProductExecution pe = productService.addProduct(product, thumbnail, productImgs);
+                if (pe.getState() == ProductStateEnum.SUCCESS.getState()) {
+                    modelMap.put("success", true);
+                } else {
+                    modelMap.put("success", false);
+                    modelMap.put("errMsg", pe.getState());
+                }
+            } catch (Exception e) {
+                modelMap.put("success", false);
+                modelMap.put("errMsg", e.toString());
+                return modelMap;
+            }
+        }else {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "请输入商品信息");
+        }
+        return modelMap;
+
+    }
+
+
+
+    @RequestMapping(value = "/modifyproduct")
+    @ResponseBody
+    private Map<String, Object> modifyProduct(HttpServletRequest request) {
+        Shop shop1 = new Shop();
+        shop1.setShopId(1L);
+        request.getSession().setAttribute("currentShop", shop1);
+
+        boolean statusChange = HttpServletRequestUtil.getBoolena(request, "statusChange");
+        Map<String, Object> modelMap = new HashMap<>();
+        if (!statusChange && !CodeUtil.checkVerifyCode(request)) {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "输入了错误的验证码");
+            return modelMap;
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        Product product = null;
+        String productStr = HttpServletRequestUtil.getString(request,
+                "productStr");
+        MultipartHttpServletRequest multipartRequest = null;
+        CommonsMultipartFile thumbnail = null;
+        List<CommonsMultipartFile> productImgs = new ArrayList<CommonsMultipartFile>();
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
+                request.getSession().getServletContext());
+        //try {
+        if (multipartResolver.isMultipart(request)) {
+            multipartRequest = (MultipartHttpServletRequest) request;
+            thumbnail = (CommonsMultipartFile) multipartRequest.getFile("thumbnail");
+            for (int i = 0; i < IMAGEMAXCOUNT; i++) {
+                CommonsMultipartFile productImg = (CommonsMultipartFile) multipartRequest
+                        .getFile("productImg" + i);
+                if (productImg != null) {
+                    productImgs.add(productImg);
+                }
+            }
+        }
+//            else {
+//                modelMap.put("success", false);
+//                modelMap.put("errMsg", "上传图片不能为空");
+//                return modelMap;
+//            }
+//        } catch (Exception e) {
+//            modelMap.put("success", false);
+//            modelMap.put("errMsg", "1."+e.toString());
+//
+//            return modelMap;
+//        }
+        try {
+            product = mapper.readValue(productStr, Product.class);
+        } catch (Exception e) {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "2." + e.toString());
+            return modelMap;
+        }
+        if (product != null) {
+            try {
 
                 Shop shop2 = new Shop();
                 shop2.setShopId(1L);
-                request.getSession().setAttribute("currentShop",shop2);
+                request.getSession().setAttribute("currentShop", shop2);
 
                 Shop currentShop = (Shop) request.getSession().getAttribute(
                         "currentShop");
@@ -152,11 +243,11 @@ public class ProductManagementController {
                     modelMap.put("success", true);
                 } else {
                     modelMap.put("success", false);
-                    modelMap.put("errMsg", "3."+pe.getStateInfo());
+                    modelMap.put("errMsg", "3." + pe.getStateInfo());
                 }
             } catch (RuntimeException e) {
                 modelMap.put("success", false);
-                modelMap.put("errMsg", "4."+e.toString());
+                modelMap.put("errMsg", "4." + e.toString());
                 return modelMap;
             }
         } else {
