@@ -75,7 +75,7 @@ public class ShopManagementController {
         user.setUserId(1L);
         try {
             Shop shopCondition = new Shop();
-            shopCondition.setOwner(user);
+            shopCondition.setOwnerId(1L);
             ShopExecution se = shopService.getShopList(shopCondition,0,100);
             modelMap.put("shopList",se.getShopList());
             modelMap.put("user",user);
@@ -91,7 +91,7 @@ public class ShopManagementController {
     @ResponseBody
     private Map<String ,Object> getShopById(HttpServletRequest request){
         Map<String,Object> modelMap = new HashMap<String ,Object>();
-        Long shopId =HttpServletRequestUtil.getLong(request,"shopId");
+        java.lang.Long shopId =HttpServletRequestUtil.getLong(request,"shopId");
         if (shopId > -1){
             try {
                 Shop shop = shopService.getByShopId(shopId);
@@ -164,7 +164,7 @@ public class ShopManagementController {
             //PersonInfo owner = (PersonInfo)request.getSession().getAttribute("user");
             PersonInfo owner = new PersonInfo();
             owner.setUserId(1L);
-            shop.setOwner(owner);
+            shop.setOwnerId(1L);
             ShopExecution se;
             try {
                 se = shopService.addShop(shop, shopImg.getInputStream(), shopImg.getOriginalFilename());

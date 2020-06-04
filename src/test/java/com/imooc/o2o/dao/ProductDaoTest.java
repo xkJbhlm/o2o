@@ -133,10 +133,10 @@ public class ProductDaoTest extends BaseTest {
 		assertEquals(1, effectedNum);
 	}
 
-	@Ignore
-	@Test
-	public void testEDeleteShopAuthMap() throws Exception {
-		int effectedNum = productDao.deleteProduct(5, 1);
-		assertEquals(1, effectedNum);
-	}
+//	@Ignore
+//	@Test
+//	public void testEDeleteShopAuthMap() throws Exception {
+//		int effectedNum = productDao.deleteProduct(5, 1);
+//		assertEquals(1, effectedNum);
+//	}
 }

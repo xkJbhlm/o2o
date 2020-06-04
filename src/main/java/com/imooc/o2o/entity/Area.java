@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Area {
 
-    private  Integer areaId;
+    private  Long areaId;
 
     private String areaName;
 
@@ -14,7 +14,7 @@ public class Area {
 
     private Date lastEditTime;
 
-    public Integer getAreaId() {
+    public Long getAreaId() {
         return areaId;
     }
 
@@ -34,7 +34,7 @@ public class Area {
         return lastEditTime;
     }
 
-    public void setAreaId(Integer areaId) {
+    public void setAreaId(Long areaId) {
         this.areaId = areaId;
     }
 

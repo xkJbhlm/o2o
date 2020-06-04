@@ -12,7 +12,7 @@ public enum ShopStateEnum {
         this.state =state;
         this.stateInfo = stateInfo;
     }
-    public static ShopStateEnum sateOf(int state){
+    public static ShopStateEnum stateOf(int state){
         for (ShopStateEnum stateEnum:values()){
             if (stateEnum.getState() == state){
                 return stateEnum;

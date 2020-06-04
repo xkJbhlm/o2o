@@ -16,4 +16,14 @@ public class ShopCategoryServiceImpl implements ShopCategoryService {
     public List<ShopCategory> getShopCategoryList(ShopCategory shopCategoryCondition) {
         return shopCategoryDao.queryShopCategory(shopCategoryCondition);
     }
+//    @Override
+//    public List<ShopCategory> getShopCategoryList(Long parentId) {
+//        ShopCategory shopCategoryCondition = new ShopCategory();
+//        return shopCategoryDao.queryShopCategory(shopCategoryCondition);
+//    }
+//
+//    @Override
+//    public List<ShopCategory> getAllSecondLevelShopCategory() {
+//        return null;
+//    }
 }

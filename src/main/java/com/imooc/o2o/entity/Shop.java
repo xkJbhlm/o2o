@@ -1,22 +1,29 @@
 package com.imooc.o2o.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class Shop {
     private Long shopId;
+    private Long ownerId;
+    private Long shopCategoryId;
     private String shopName;
     private String shopDesc;
     private String shopAddr;
     private String phone;
     private String shopImg;
+    private Double longitude;
+    private Double latitude;
     private Integer priority;
     private Date createTime;
     private Date lastEditTime;
     private Integer enableStatus;
     private String advice;
+
+    private List<ShopAuthMap> staffList;
     private Area area;
-    private PersonInfo owner;
     private ShopCategory shopCategory;
+    private ShopCategory parentCategory;
 
     public Long getShopId() {
         return shopId;
@@ -24,6 +31,22 @@ public class Shop {
 
     public void setShopId(Long shopId) {
         this.shopId = shopId;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public Long getShopCategoryId() {
+        return shopCategoryId;
+    }
+
+    public void setShopCategoryId(Long shopCategoryId) {
+        this.shopCategoryId = shopCategoryId;
     }
 
     public String getShopName() {
@@ -66,6 +89,22 @@ public class Shop {
         this.shopImg = shopImg;
     }
 
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
     public Integer getPriority() {
         return priority;
     }
@@ -106,6 +145,14 @@ public class Shop {
         this.advice = advice;
     }
 
+    public List<ShopAuthMap> getStaffList() {
+        return staffList;
+    }
+
+    public void setStaffList(List<ShopAuthMap> staffList) {
+        this.staffList = staffList;
+    }
+
     public Area getArea() {
         return area;
     }
@@ -114,19 +161,19 @@ public class Shop {
         this.area = area;
     }
 
-    public PersonInfo getOwner() {
-        return owner;
-    }
-
-    public void setOwner(PersonInfo owner) {
-        this.owner = owner;
-    }
-
     public ShopCategory getShopCategory() {
         return shopCategory;
     }
 
     public void setShopCategory(ShopCategory shopCategory) {
         this.shopCategory = shopCategory;
+    }
+
+    public ShopCategory getParentCategory() {
+        return parentCategory;
+    }
+
+    public void setParentCategory(ShopCategory parentCategory) {
+        this.parentCategory = parentCategory;
     }
 }

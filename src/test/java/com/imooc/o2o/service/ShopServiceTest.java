@@ -12,7 +12,6 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.*;
 import java.util.Date;
@@ -30,9 +29,9 @@ public class ShopServiceTest extends BaseTest {
         Area area= new Area();
         ShopCategory shopCategory =new ShopCategory();
         owner.setUserId(1L);
-        area.setAreaId(2);
+        area.setAreaId(2L);
         shopCategory.setShopCategoryId(1L);
-        shop.setOwner(owner);
+        shop.setOwnerId(1L);
         shop.setArea(area);
         shop.setShopCategory(shopCategory);
         shop.setShopName("测试的店铺1");
